@@ -12,6 +12,7 @@ var imagedisplayer = require('./imagedisplayer.js');
 var app     	= express();
 
 app.set('view engine', 'jade');
+app.set('port', (process.env.PORT || 8081));
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
@@ -26,6 +27,6 @@ var schedjob = schedule.scheduleJob('*/20 * * * *', function(){
 
 imgcapture.captureimage();
 
-app.listen('8081')
-console.log('We are listening on 8081');
+app.listen(app.get('port'))
+console.log('We are listening on ' + app.get('port'));
 exports = module.exports = app;
