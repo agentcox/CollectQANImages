@@ -20,7 +20,7 @@ var getLastImage = function() {
 	var latestFileName = '';
 
 	// go into images folder
-	var imageFiles = fs.readdirSync('images/');
+	var imageFiles = fs.readdirSync('public/images/');
 	imageFiles.forEach(function (file) {
 		console.log('Found old file ' + file);
 		var curFileStamp = parseInt(path.basename(file, path.extname(file)));
@@ -31,7 +31,7 @@ var getLastImage = function() {
 		}
 	})
 	console.log('Latest file is ' + latestFileName);
-	return 'images/' + latestFileName;
+	return 'public/images/' + latestFileName;
 }
 
 var compareImageFiles = function(a, b) {
@@ -66,7 +66,7 @@ var getFileHash = function(filename) {
 }
 
 var writeFinalImage = function(tempimagepath) {
-	fs.rename(tempimagepath, 'images/' + getDateImageName());
+	fs.rename(tempimagepath, 'public/images/' + getDateImageName());
 }
 
 var getDateImageName = function() {

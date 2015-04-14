@@ -7,12 +7,16 @@ var http		= require('http');
 var cheerio 	= require('cheerio');
 var schedule 	= require('node-schedule');
 var imgcapture 	= require('./imgcapture.js');
+var jade		= require('jade');
+var imagedisplayer = require('./imagedisplayer.js');
 var app     	= express();
 
-app.get('/capture', function(req, res){
+app.set('view engine', 'jade');
+app.use(express.static(__dirname + '/public'));
 
-	url = 'http://cooperisland-bvi.com/QAN_webcam.php';
-	console.log(url);
+app.get('/', function(req, res){
+	var items = imagedisplayer.renderImages();
+	res.render('home', { title: 'QAN Camera Log', items: items });
 })
 
 var schedjob = schedule.scheduleJob('*/20 * * * *', function(){

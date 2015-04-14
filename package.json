@@ -10,6 +10,7 @@
 		"cheerio"			:	"latest",
 		"node-schedule"		:	"latest",
 		"moment"			:	"latest",
-		"checksum"			:	"latest"
+		"checksum"			:	"latest",
+		"jade"				:	"latest"
 	}
 }
