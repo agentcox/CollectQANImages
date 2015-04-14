@@ -1,0 +1,15 @@
+{
+	"name"			:	"collect-qan-images",
+	"version"		: 	"0.0.1",
+	"description"	:	"Collect chronological images from the QAN webcam",
+	"main"			:	"server.js",
+	"author"		:	"Charles Cox",
+	"dependencies"	:	{
+		"express"			:	"latest",
+		"request"			:	"latest",
+		"cheerio"			:	"latest",
+		"node-schedule"		:	"latest",
+		"moment"			:	"latest",
+		"checksum"			:	"latest"
+	}
+}
