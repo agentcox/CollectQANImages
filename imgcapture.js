@@ -73,7 +73,22 @@ var getDateImageName = function() {
 	return '' + moment().valueOf() + '.jpg';
 }
 
-exports.captureimage = function () {
+var writeToDB = function(connection, timestamp, buffer) {
+
+    var query = "INSERT INTO qanImages SET ?",
+        values = {
+            timestamp: timestamp,
+            imagedatasize: buffer.length,
+            imagedata: new Buffer(buffer, 'binary')
+        };
+
+    console.log("Connection = " + connection);
+    connection.query(query, values, function (er, da) {
+        if(er)throw er;
+    });
+}
+
+exports.captureimage = function (connection) {
 	var request = http.get(options, function(res){
 		var imagedata = '';
 		res.setEncoding('binary');
@@ -83,14 +98,7 @@ exports.captureimage = function () {
 		})
 
 		res.on('end', function(){
-			fs.writeFile('temp.jpg', imagedata,  'binary', function(err){
-				if (err) throw err
-			})
-			//console.log('Written temp, comparing...');  //remove comparison as it's not working
-			//if(compareImageFiles('temp.jpg', getLastImage()) == false) {
-				console.log('Image is new! Saving.');
-				writeFinalImage('temp.jpg');
-			//}
+			writeToDB(connection, moment().valueOf(), imagedata)
 		})
 	})
 }

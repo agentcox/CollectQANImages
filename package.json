@@ -11,6 +11,7 @@
 		"node-schedule"		:	"latest",
 		"moment"			:	"latest",
 		"checksum"			:	"latest",
-		"jade"				:	"latest"
+		"jade"				:	"latest",
+		"mysql"				:	"latest"
 	}
 }
