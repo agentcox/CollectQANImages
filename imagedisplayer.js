@@ -86,7 +86,10 @@ var displayImagesFromDiskCache = function(req, res) {
 		console.log('Pushing cache file ' + file);
 		if(path.extname(file) === '.jpg')
 		{
-			items.push({'filename':'/images/'+file, 'date':(path.basename(file, path.extname(file)))})
+			var day = moment.utc(parseInt(path.basename(file, path.extname(file))));
+			day.utcOffset(-240);
+
+			items.push({'filename':'/images/'+file, 'date':day.format('lll') + ' AST'})
 		}
 	})
 
