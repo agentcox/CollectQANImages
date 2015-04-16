@@ -6,6 +6,7 @@ block content
 
   each item in items
     div(class='img')
-      img(src='#{item.filename}' width='300' height='225')
+      a(href='#{item.filename}')
+        img(src='#{item.filename}' width='300' height='225')
       div(class = 'desc')
         p #{item.date}
