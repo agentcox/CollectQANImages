@@ -30,7 +30,7 @@ connection.connect(function(req, res){
 	exports = module.exports = app;
 })
 
-var schedjob = schedule.scheduleJob('*/20 * * * *', function(){
+var schedjob = schedule.scheduleJob('*/15 * * * *', function(){
 	console.log('Grabbing an image, son');
 	imgcapture.captureimage(connection);
 });

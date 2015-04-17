@@ -2,8 +2,10 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
-
+  p.
+    A Node.JS learning project, capturing images from the <a href="http://www.cooperisland-bvi.com/Wordpress/webcam/">Quart-A-Nancy Point Webcam</a> on Cooper Island, BVI.
+  p.
+    [<a href="https://github.com/agentcox/CollectQANImages">Get the Source</a>][<a href="mailto:charles.cox@gmail.com">Contact the Author</a>]
   each item in items
     div(class='img')
       a(href='#{item.filename}')

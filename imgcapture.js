@@ -75,17 +75,26 @@ var getDateImageName = function() {
 
 var writeToDB = function(connection, timestamp, buffer) {
 
-    var query = "INSERT INTO qanImages SET ?",
-        values = {
-            timestamp: timestamp,
-            imagedatasize: buffer.length,
-            imagedata: new Buffer(buffer, 'binary')
-        };
+	connection.query("SELECT imagedatasize as imagedata_size, timestamp as timestamp FROM qanImages WHERE timestamp=(select MAX(timestamp) from qanImages)", function(er, results, fields){
+		console.log("Comparing this image size " + buffer.length + " to size " + results[0].imagedata_size + " from timestamp " + results[0].timestamp);
+		if(results != null && results[0].imagedata_size == buffer.length){
+			console.log("Image has same size as most recent image. Discarding.");
+		}
+		else{
+			console.log("Image has different size as most recent image. Writing image to db.");
+		    var writeQuery = "INSERT INTO qanImages SET ?",
+		        values = {
+		            timestamp: timestamp,
+		            imagedatasize: buffer.length,
+		            imagedata: new Buffer(buffer, 'binary')
+		        };
 
-    console.log("Connection = " + connection);
-    connection.query(query, values, function (er, da) {
-        if(er)throw er;
-    });
+		    //console.log("Connection = " + connection);
+		    connection.query(writeQuery, values, function (er, da) {
+		        if(er)throw er;
+		    });
+		}
+	});
 }
 
 exports.captureimage = function (connection) {
