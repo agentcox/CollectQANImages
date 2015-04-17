@@ -3,9 +3,11 @@ extends layout
 block content
   h1= title
   p.
-    A Node.JS learning project, capturing images from the <a href="http://www.cooperisland-bvi.com/Wordpress/webcam/">Quart-A-Nancy Point Webcam</a> on Cooper Island, BVI.
+    A Node.JS learning project, capturing images from a series of webcams around the British Virgin Islands.
   p.
     [<a href="https://github.com/agentcox/CollectQANImages">Get the Source</a>][<a href="mailto:charles.cox@gmail.com">Contact the Author</a>]
+  p.
+    Camera: [<a href="/">Quart-A-Nancy Point</a>][<a href="/robbwhite">Marina Cay</a>][<a href="/roadtown">Road Town</a>]
   each item in items
     h2=item.date
     each subitem in item.items
