@@ -79,19 +79,50 @@ var writeRowToDiskCache = function(row, callback) {
 }
 
 var displayImagesFromDiskCache = function(req, res) {
-	var items = [];
+	var arrayitems = [];
 
 	var imageFiles = fs.readdirSync('public/images/');
 	imageFiles.forEach(function (file) {
 		console.log('Pushing cache file ' + file);
 		if(path.extname(file) === '.jpg')
 		{
-			var day = moment.utc(parseInt(path.basename(file, path.extname(file))));
-			day.utcOffset(-240);
+			var timestampint = parseInt(path.basename(file, path.extname(file)));
+			var datetime = moment.utc(timestampint);
+			datetime.utcOffset(-240);
+			var date = datetime.format('YYYY-MM-DD');
 
-			items.push({'filename':'/images/'+file, 'date':day.format('lll') + ' AST'})
+			//construct item
+			var item = {'filename':'/images/'+file, 'timestamp':timestampint, 'date':datetime.format('lll') + ' AST'};
+
+			//check for date in items to push to
+			//if no items with date, make new container and push to it
+			var found = false;
+			arrayitems.forEach(function (arrayitem){
+				if(arrayitem.date === date){
+					console.log("Date " + date + " found!");
+					arrayitem.items.push(item);
+					found = true;
+					return;
+				}
+			})
+			if(!found){
+				console.log("Date " + date + " not found! Adding.");
+				var arrayitem = {'date':date, 'items':[item]};
+				arrayitems.push(arrayitem);
+				console.log("Array now at " + arrayitems.length);
+			}
 		}
 	})
 
-	res.render('home', { title: 'QAN Camera Log', items: items });
+	arrayitems.forEach(function(item){
+		item.items.sort(function(a,b){
+			return(moment(a.timestamp)-moment(b.timestamp));
+		});
+	});
+
+	arrayitems.sort(function(a,b){
+		return(moment(b.date)-moment(a.date));
+	});
+
+	res.render('home', { title: 'QAN Camera Log', items: arrayitems });
 }
